@@ -78,9 +78,9 @@ public class TextBuddy {
 		
 		try(BufferedReader br = new BufferedReader(new FileReader(textFile))) {
 			String fileOutput = null;
-			boolean fileEmpty = isFileEmpty(textFile);
+			boolean isFileEmpty = checkFileEmpty(textFile);
 			
-			if(fileEmpty) {
+			if(isFileEmpty) {
 				System.out.println(fileName + " is empty");
 			} else {
 				while((fileOutput = br.readLine()) != null) {
@@ -93,7 +93,7 @@ public class TextBuddy {
 		}
 	}
 	
-	public static boolean isFileEmpty(File textFile) {
+	public static boolean checkFileEmpty(File textFile) {
 		boolean result = true;
 		
 		try(BufferedReader br = new BufferedReader(new FileReader(textFile))) {
