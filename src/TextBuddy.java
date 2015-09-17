@@ -32,44 +32,121 @@ public class TextBuddy {
 		
 		while(true) {
 			System.out.print("command:");
-			userCommand = scan.nextLine();
+			userCommand = scan.next();
 			
-			if(userCommand.contains("delete")) {
-				deleteLine(textFile, userCommand);
-			} else if(userCommand.contains("add")) {
-				addText(textFile, userCommand);
-			} else if(userCommand.contains("search")) {
-				searchWord(textFile, userCommand);
-			} else {
-				switch(userCommand) {
-					case "display":
-						displayFile(textFile);
-						break;
-
-					case "clear":
-						clearFile(textFile);
-						break;
+			switch(userCommand) {
+				case "add":
+					String textToAdd = scan.nextLine();
+					textToAdd = textToAdd.trim();
+					addText(textFile, textToAdd);
+					break;
 					
-					case "sort":
-						sortFile(textFile);
-						break;
+				case "delete":
+					String lineToDelete = scan.nextLine();
+					lineToDelete = lineToDelete.trim();
+					deleteLine(textFile, lineToDelete);
+					break;
 						
-					case "exit":
-						scan.close();
-						System.exit(0);
+				case "search":
+					String wordToSearch = scan.nextLine();
+					wordToSearch = wordToSearch.trim();
+					searchWord(textFile, wordToSearch);
+					break;
+				
+				case "display":
+					displayFile(textFile);
+					break;
+
+				case "clear":
+					clearFile(textFile);
+					break;
+					
+				case "sort":
+					sortFile(textFile);
+					break;
+						
+				case "exit":
+					scan.close();
+					exitFile();
 				}
 			}
-		}
 	}
 
-	public static void addText (File textFile, String userCommand) {
-		String toAdd = userCommand.substring(4);
-		
+	public static void addText(File textFile, String textToAdd) {
 		try(PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(textFile, true)))) {
-			pw.println(toAdd);
-			System.out.println("added to " + fileName + ": \"" + toAdd + "\"");
+			pw.println(textToAdd);
+			System.out.println("added to " + fileName + ": \"" + textToAdd + "\"");
 		} catch(IOException e) {
 		    e.printStackTrace();
+		}
+	}
+	
+	public static void deleteLine(File textFile, String lineToDelete) {
+		ArrayList<String> linesNotToDelete = new ArrayList<String>();
+		PrintWriter pw = null;
+				
+		int deleteLineNumber = Integer.parseInt(lineToDelete);
+		
+		try(BufferedReader br = new BufferedReader(new FileReader(textFile))) {
+			String fileOutput;
+			int lineNumber = 0;
+			
+			while((fileOutput = br.readLine()) != null) {
+				lineNumber++;
+				if(lineNumber == deleteLineNumber) {
+					System.out.println("deleted from " + fileName + ": \"" + fileOutput + "\"");
+				} else {
+					linesNotToDelete.add(fileOutput);
+				}
+			}
+			
+			pw = new PrintWriter(textFile);
+			
+			for(int i = 0; i < linesNotToDelete.size(); i++) {
+				pw.println(linesNotToDelete.get(i));
+			}
+		} catch(IOException e) {
+			e.printStackTrace();
+		} finally {
+			pw.close();
+		}
+	}
+	
+	public static void searchWord(File textFile, String wordToSearch) {
+		ArrayList<String> linesFromFile = new ArrayList<String>();
+		ArrayList<Integer> linesContainingWord = new ArrayList<Integer>();
+		
+		try(BufferedReader br = new BufferedReader(new FileReader(textFile))) {
+			String fileOutput;
+			
+			while((fileOutput = br.readLine()) != null) {
+				linesFromFile.add(fileOutput);
+			}
+			
+			for(int i = 0; i < linesFromFile.size(); i++) {
+				String toCheck = linesFromFile.get(i);
+				if(toCheck.contains(wordToSearch)) {
+					linesContainingWord.add(i);
+				}
+			}
+			
+			if(linesContainingWord.isEmpty()) {
+				System.out.println(fileName + " does not contain the word " + wordToSearch);
+			} else {
+				if(linesContainingWord.size() == 1) {
+					System.out.print(fileName + " has the word " + wordToSearch + " appear in line ");
+				} else {
+					System.out.print(fileName + " has the word " + wordToSearch + " appear in lines ");
+				}
+				for(int j = 0; j < linesContainingWord.size(); j++) {
+					int toPrint = linesContainingWord.get(j);
+					toPrint++;
+					System.out.print(toPrint + " ");
+				}
+				System.out.println();
+			}
+		} catch(IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -94,51 +171,21 @@ public class TextBuddy {
 	}
 	
 	public static boolean checkFileEmpty(File textFile) {
-		boolean result = true;
+		boolean isFileEmpty = true;
 		
 		try(BufferedReader br = new BufferedReader(new FileReader(textFile))) {
 			if(br.readLine() == null) {
 				br.close();
-				result = true;
+				isFileEmpty = true;
 			} else {
 				br.close();
-				result = false;
+				isFileEmpty = false;
 			}
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
 		
-		return result;
-	}
-	
-	public static void deleteLine(File textFile, String userCommand) {
-		ArrayList<String> tempArrayList = new ArrayList<String>();
-		PrintWriter pw = null;
-		
-		try(BufferedReader br = new BufferedReader(new FileReader(textFile))) {
-			String fileOutput;
-			int deleteLineNumber = Integer.parseInt(userCommand.substring(7));
-			int lineNumber = 0;
-			
-			while((fileOutput = br.readLine()) != null) {
-				lineNumber++;
-				if(lineNumber == deleteLineNumber) {
-					System.out.println("deleted from " + fileName + ": \"" + fileOutput + "\"");
-				} else {
-					tempArrayList.add(fileOutput);
-				}
-			}
-			
-			pw = new PrintWriter(textFile);
-			
-			for(int i = 0; i < tempArrayList.size(); i++) {
-				pw.println(tempArrayList.get(i));
-			}
-		} catch(IOException e) {
-			e.printStackTrace();
-		} finally {
-			pw.close();
-		}
+		return isFileEmpty;
 	}
 	
 	public static void clearFile(File textFile) {
@@ -159,21 +206,21 @@ public class TextBuddy {
 	}
 	
 	public static void sortFile(File textFile) {
-		ArrayList<String> tempArrayList = new ArrayList<String>();
+		ArrayList<String> storageForLines = new ArrayList<String>();
 		PrintWriter pw = null;
 		
 		try(BufferedReader br = new BufferedReader(new FileReader(textFile))) {
 			String fileOutput;
 			
 			while((fileOutput = br.readLine()) != null) {
-				tempArrayList.add(fileOutput);
+				storageForLines.add(fileOutput);
 			}
 			
-			Collections.sort(tempArrayList);
+			Collections.sort(storageForLines);
 			pw = new PrintWriter(textFile);
 			
-			for(int i = 0; i < tempArrayList.size(); i++) {
-				pw.println(tempArrayList.get(i));
+			for(int i = 0; i < storageForLines.size(); i++) {
+				pw.println(storageForLines.get(i));
 			}
 			
 			System.out.println(fileName + " has been sorted");
@@ -184,41 +231,7 @@ public class TextBuddy {
 		}
 	}
 	
-	public static void searchWord(File textFile, String userCommand) {
-		ArrayList<String> tempArrayList = new ArrayList<String>();
-		ArrayList<Integer> linesContainingWord = new ArrayList<Integer>();
-		String wordToSearch = userCommand.substring(7);
-		
-		try(BufferedReader br = new BufferedReader(new FileReader(textFile))) {
-			String fileOutput;
-			
-			while((fileOutput = br.readLine()) != null) {
-				tempArrayList.add(fileOutput);
-			}
-			
-			for(int i = 0; i < tempArrayList.size(); i++) {
-				String toCheck = tempArrayList.get(i);
-				if(toCheck.contains(wordToSearch)) {
-					linesContainingWord.add(i);
-				}
-			}
-			
-			if(linesContainingWord.isEmpty()) {
-				System.out.println(fileName + " does not contain the word " + wordToSearch);
-			} else {
-				if(linesContainingWord.size() == 1) {
-					System.out.print(fileName + " has the word " + wordToSearch + " appear in line ");
-				} else {
-					System.out.print(fileName + " has the word " + wordToSearch + " appear in lines ");
-				}
-				for(int j = 0; j < linesContainingWord.size(); j++) {
-					int toPrint = linesContainingWord.get(j);
-					System.out.print(toPrint + " ");
-				}
-				System.out.println();
-			}
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
+	public static void exitFile() {
+		System.exit(0);
 	}
 }
