@@ -88,7 +88,7 @@ public class TextBuddy {
 			pw.println(textToAdd);
 			System.out.println("added to " + fileName + ": \"" + textToAdd + "\"");
 		} catch(IOException e) {
-			System.err.println("Error! Invalid argument for add!");
+			System.err.println("Error! Invalid argument for add! Proper Usage is: add userinput");
 		}
 	}
 	
@@ -116,7 +116,7 @@ public class TextBuddy {
 				pw.println(linesNotToDelete.get(i));
 			}
 		} catch(Exception e) {
-			System.err.println("Error! Invalid argument for delete!");
+			System.err.println("Error! Invalid argument for delete! Proper Usage is: delete linenumber");
 		} finally {
 			pw.close();
 		}
@@ -156,7 +156,7 @@ public class TextBuddy {
 				System.out.println();
 			}
 		} catch(IOException e) {
-			System.err.println("Error! Invalid argument for search!");
+			System.err.println("Error! Invalid argument for search! Proper Usage is: search userinput");
 		}
 	}
 	
@@ -176,7 +176,7 @@ public class TextBuddy {
 				}	
 			}
 		} catch(IOException e) {
-			System.err.println("Error! " + fileName + " could not be displayed!");
+			System.err.println("Error! " + fileName + " could not be displayed! Proper Usage is: display");
 		}
 	}
 	
@@ -209,7 +209,7 @@ public class TextBuddy {
 			tempFile.renameTo(textFile);
 			System.out.println("all content deleted from " + fileName);
 		} catch(IOException e) {
-			System.err.println("Error! " + fileName + " could not be cleared!");
+			System.err.println("Error! " + fileName + " could not be cleared! Proper Usage is: clear");
 		} finally {
 			pw.close();
 		}
@@ -235,7 +235,7 @@ public class TextBuddy {
 			
 			System.out.println(fileName + " has been sorted");
 		} catch(IOException e) {
-			System.err.println("Error! " + fileName + " could not be sorted!");
+			System.err.println("Error! " + fileName + " could not be sorted! Proper Usage is: sort");
 		} finally {
 			pw.close();
 		}
