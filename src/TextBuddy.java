@@ -88,11 +88,10 @@ public class TextBuddy {
 	public static void deleteLine(File textFile, String lineToDelete) {
 		ArrayList<String> linesNotToDelete = new ArrayList<String>();
 		PrintWriter pw = null;
-				
-		int deleteLineNumber = Integer.parseInt(lineToDelete);
 		
 		try(BufferedReader br = new BufferedReader(new FileReader(textFile))) {
 			String fileOutput;
+			int deleteLineNumber = Integer.parseInt(lineToDelete);
 			int lineNumber = 0;
 			
 			while((fileOutput = br.readLine()) != null) {
@@ -109,7 +108,7 @@ public class TextBuddy {
 			for(int i = 0; i < linesNotToDelete.size(); i++) {
 				pw.println(linesNotToDelete.get(i));
 			}
-		} catch(IOException e) {
+		} catch(Exception e) {
 			System.err.println("Error! Invalid argument for delete!");
 		} finally {
 			pw.close();
