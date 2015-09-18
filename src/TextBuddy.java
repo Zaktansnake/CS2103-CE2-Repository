@@ -1,10 +1,8 @@
-//CS2103 AY1516 CE2
-//Name: David Chong Yong Ming
-//Matric No: A0116633L
-//Tutorial Group: F10
-//Program Assumptions: This program assumes that all commands inputted by the user are correct and valid.
-//If a invalid command is entered, it is ignored by the program and the program will continue to run till
-//the exit command is entered.
+/* CS2103 AY1516 CE2
+ * Name: David Chong Yong Ming
+ * Matric No: A0116633L
+ * Tutorial Group: F10
+ */
 
 import java.util.*;
 import java.io.*;
@@ -19,9 +17,16 @@ public class TextBuddy {
 		createFile(fileName);
 	}
 	
+	/**
+	 * @param arguments keyed in at the command line
+	 * method: checks if arguments are valid
+	 * If valid, program will continue to run
+	 * If invalid, informs user of proper usage and closes program
+	 */ 
 	public static void checkArgument(String[] args) {
 		if(args.length == 0) {
 			System.err.println("Error! Invalid use of TextBuddy! Proper Usage is: Java TextBuddy filename.txt");
+			exitFile();
 		}
 	}
 	
