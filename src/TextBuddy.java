@@ -15,13 +15,17 @@ public class TextBuddy {
 	
 	public static void main(String[] args) {
 		fileName = args[0];
+		createFile(fileName);
+	}
+	
+	public static void createFile(String fileName) {
 		File textFile = new File(fileName);
 		
 		try {
 			textFile.createNewFile();
 			commandInterface(textFile);
 		} catch(IOException e) {
-			e.printStackTrace();
+			System.err.println("Error! File cannot be created!");
 		}
 	}
 	
