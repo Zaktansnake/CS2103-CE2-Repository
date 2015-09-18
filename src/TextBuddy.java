@@ -14,8 +14,15 @@ public class TextBuddy {
 	private static String fileName;
 	
 	public static void main(String[] args) {
+		checkArgument(args);
 		fileName = args[0];
 		createFile(fileName);
+	}
+	
+	public static void checkArgument(String[] args) {
+		if(args.length == 0) {
+			System.err.println("Error! Invalid use of TextBuddy! Proper Usage is: Java TextBuddy filename.txt");
+		}
 	}
 	
 	public static void createFile(String fileName) {
