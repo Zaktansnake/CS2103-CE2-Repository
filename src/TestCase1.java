@@ -21,6 +21,5 @@ public class TestCase1 extends TestCase {
 		testTextBuddy.displayFile(myTestFile);
 		testTextBuddy.sortFile(myTestFile);
 		testTextBuddy.searchWord(myTestFile, "little");
-		testTextBuddy.deleteLine(myTestFile, "all");
 	}
 }

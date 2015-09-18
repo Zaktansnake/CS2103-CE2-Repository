@@ -169,7 +169,7 @@ public class TextBuddy {
 				}	
 			}
 		} catch(IOException e) {
-			e.printStackTrace();
+			System.err.println("Error! " + fileName + " could not be displayed!");
 		}
 	}
 	
@@ -185,7 +185,7 @@ public class TextBuddy {
 				isFileEmpty = false;
 			}
 		} catch(IOException e) {
-			System.err.println("Error! " + fileName + " could not be displayed!");
+			System.err.println("Error! " + fileName + " could not be checked if empty!");
 		}
 		
 		return isFileEmpty;
