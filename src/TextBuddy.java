@@ -26,8 +26,7 @@ import java.io.*;
 public class TextBuddy {
 
 	/**
-	 * Stores the name of the file to be called upon when printing statements
-	 * and for creating file objects
+	 * Stores the name of the file to be called upon when printing statements and for creating file objects.
 	 */
 	private static String fileName;
 
@@ -38,25 +37,24 @@ public class TextBuddy {
 	}
 
 	/**
-	 * @param args
-	 * 				Arguments keyed in at the command line
+	 * Checks if arguments are valid.
+	 * If valid, program will continue to run. 
+	 * If invalid, informs user of proper usage and closes program.
 	 * 
-	 * Method: checks if arguments are valid 
-	 * If valid, program will continue to run 
-	 * If invalid, informs user of proper usage and closes program
+	 * @param args	arguments keyed in at the command line.
 	 */
 	public static void checkArgument(String[] args) {
 		if (args.length == 0) {
 			System.err.println("Error! Invalid use of TextBuddy! Proper Usage is: Java TextBuddy filename.txt");
-			exitFile();
+			exitProgram();
 		}
 	}
 
 	/**
-	 * @param fileName
-	 * 					The name for the file to be created
-	 *  
-	 * Method: creates the file object for text storage and manipulation with the functions in TextBuddy
+	 * Creates the file object for text storage and manipulation with the functions in TextBuddy.
+	 * 
+	 * @param fileName	The name for the file to be created.
+	 * @throws IOException	If file cannot be created
 	 */
 	public static void createFile(String fileName) {
 		File textFile = new File(fileName);
@@ -70,11 +68,10 @@ public class TextBuddy {
 	}
 
 	/**
-	 * @param textFile
-	 * 					The file for text storage/manipulation
+	 * Main interface for TextBuddy, user will input commands in this method.
+	 * This method will call on certain methods depending on user commands.
 	 * 
-	 * Method: main interface for TextBuddy, user will input commands in this method 
-	 * This method will call on certain methods depending on user commands
+	 * @param textFile	The file for text storage/manipulation.
 	 */
 	public static void commandInterface(File textFile) {
 		Scanner scan = new Scanner(System.in);
@@ -121,19 +118,17 @@ public class TextBuddy {
 
 				case "exit":
 					scan.close();
-					exitFile();
+					exitProgram();
 			}
 		}
 	}
 
 	/**
-	 * @param textFile
-	 * 					The file for text storage/manipulation
-	 * @param textToAdd
-	 * 					The text that is to be added into the file
+	 * Adds the user input text as the last line in the file.
 	 * 
-	 * Method: adds a line of text in the file 
-	 * Adds the user input text as the last line in the file
+	 * @param textFile	The file for text storage/manipulation.
+	 * @param textToAdd	The text that is to be added into the file.
+	 * @throws IOException	If file cannot be opened
 	 */
 	public static void addText(File textFile, String textToAdd) {
 		try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(textFile, true)))) {
@@ -145,14 +140,13 @@ public class TextBuddy {
 	}
 
 	/**
-	 * @param textFile
-	 * 					The file for text storage/manipulation
-	 * @param lineToDelete
-	 * 					The line number to be deleted in the file
-	 * 
-	 * Method: Deletes a line from the file 
 	 * Deletes the user requested line number from the file by copying all lines except the line to delete 
-	 * into a temporary storage and adding the lines in the temporary storage back into the file
+	 * into a temporary storage and adding the lines in the temporary storage back into the file.
+	 * 
+	 * @param textFile		The file for text storage/manipulation.
+	 * @param lineToDelete	The line number to be deleted in the file.
+	 * @throws IOException	If file cannot be opened.
+	 * @throws NumberFormatException	If user input is not an valid integer.
 	 */
 	public static void deleteLine(File textFile, String lineToDelete) {
 		ArrayList<String> linesNotToDelete = new ArrayList<String>();
@@ -185,16 +179,14 @@ public class TextBuddy {
 	}
 
 	/**
-	 * @param textFile
-	 * 					The file for text storage/manipulation
-	 * @param wordToSearch
-	 * 					The word to be searched in the file
+	 * Takes each line from the file and checks if the line contains the word to be searched. 
+	 * If it does, it will store the line number in a temporary storage.
+	 * If it does not contain the word, it will continue to read until the end of the file.
+	 * The method will print the line numbers that contained the word to be searched to inform the user.
 	 * 
-	 * Method: Checks if any line in the file contains the word to be searched 
-	 * Takes each line from the file and checks if the line contains the word to be searched 
-	 * If it does, it will store the line number in a temporary storage 
-	 * If it does not contain the word, it will continue to read until the end of the file
-	 * The method will print the line numbers that contained the word to be searched to inform the user
+	 * @param textFile		The file for text storage/manipulation.
+	 * @param wordToSearch	The word to be searched in the file.
+	 * @throws IOException	If file cannot be opened.
 	 */
 	public static void searchWord(File textFile, String wordToSearch) {
 		ArrayList<String> linesFromFile = new ArrayList<String>();
@@ -235,13 +227,12 @@ public class TextBuddy {
 	}
 
 	/**
-	 * @param textFile
-	 * 					The file for text storage/manipulation
+	 * Method will check first if file is empty.
+	 * If file is empty, the method will inform the user that the file is empty. 
+	 * If file is not empty, method will print out all the lines in the file for the user.
 	 * 
-	 * Method: Displays all lines in the file to the user through print statements 
-	 * Will check first if file is empty, 
-	 * If file is empty, the method will inform the user that the file is empty 
-	 * If file is not empty, method will print out all the lines in the file for the user
+	 * @param textFile	The file for text storage/manipulation.
+	 * @throws IOException	If file cannot be opened.
 	 */
 	public static void displayFile(File textFile) {
 		int lineNumber = 1;
@@ -264,14 +255,13 @@ public class TextBuddy {
 	}
 
 	/**
-	 * @param textFile
-	 * 					The file for text storage/manipulation
+	 * Checks if the file contains any lines.
+	 * If file contain lines, returns false.
+	 * If file does not contain lines, returns true.
 	 * 
-	 * @return boolean isFileEmpty
-	 *  
-	 * Method: Checks if the file contains any lines
-	 * If file contain lines, returns false
-	 * If file does not contain lines, returns true
+	 * @param textFile		The file for text storage/manipulation.
+	 * @return isFileEmpty	If file is empty or not.
+	 * @throws IOException	If file cannot be opened.
 	 */
 	public static boolean checkFileEmpty(File textFile) {
 		boolean isFileEmpty = true;
@@ -292,11 +282,10 @@ public class TextBuddy {
 	}
 
 	/**
-	 * @param textFile
-	 * 					The file for text storage/manipulation
+	 * Clears all text from the file by replacing the file with an empty file.
 	 * 
-	 * Method: Clears all text from the file 
-	 * Clears all text from the file by replacing the file with an empty file
+	 * @param textFile	The file for text storage/manipulation.
+	 * @throws IOException	If file cannot be opened.
 	 */
 	public static void clearFile(File textFile) {
 		PrintWriter pw = null;
@@ -316,13 +305,12 @@ public class TextBuddy {
 	}
 
 	/**
-	 * @param textFile
-	 * 					The file for text storage/manipulation
+	 * Sorts the text by storing all the lines from the file in a temporary storage.
+	 * Method will sort the text according to alphabetical order in the temporary storage. 
+	 * After sorting has been completed, the lines in the temporary storage are added back into the file.
 	 * 
-	 * Method: sorts the text in the file according to alphabetical order
-	 * Sorts the text by storing all the lines from the file in a temporary storage
-	 * The method will sort the text according to alphabetical order in the temporary storage 
-	 * After sorting has been completed, the lines in the temporary storage are added back into the file
+	 * @param textFile	The file for text storage/manipulation.
+	 * @throws IOException	If file cannot be opened.
 	 */
 	public static void sortFile(File textFile) {
 		ArrayList<String> storageForLines = new ArrayList<String>();
@@ -351,10 +339,9 @@ public class TextBuddy {
 	}
 
 	/**
-	 * Method: exit command to close the program
-	 * This method is called on to exit the TextBuddy program
+	 * Method is called on to exit the TextBuddy program.
 	 */
-	public static void exitFile() {
+	public static void exitProgram() {
 		System.exit(0);
 	}
 }
